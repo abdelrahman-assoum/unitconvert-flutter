@@ -83,20 +83,10 @@ class HomeContent extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2A2F3E),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(Icons.light_mode, color: Colors.white70),
-                ),
               ],
             ),
           ),
 
-        
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Container(
@@ -157,7 +147,6 @@ class HomeContent extends StatelessWidget {
                     icon: Icons.access_time,
                     color: Color(0xFF1ABC9C),
                   ),
-                  
                 ],
               ),
             ),
