@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/units.dart';
+import '../models/conversion_history.dart';
 import '../utils/conversions.dart';
+import '../services/history_service.dart';
 
 class CategoryScreen extends StatefulWidget {
   final String categoryName;
@@ -76,6 +78,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
             _toUnit,
           );
           _toController.text = _formatResult(result);
+          _saveToHistory(value, _fromUnit, result, _toUnit);
         } else {
           _toController.text = '';
         }
@@ -89,11 +92,29 @@ class _CategoryScreenState extends State<CategoryScreen> {
             _fromUnit,
           );
           _fromController.text = _formatResult(result);
+          _saveToHistory(result, _fromUnit, value, _toUnit);
         } else {
           _fromController.text = '';
         }
       }
     });
+  }
+
+  void _saveToHistory(
+    double fromValue,
+    String fromUnit,
+    double toValue,
+    String toUnit,
+  ) {
+    final history = ConversionHistory(
+      category: widget.categoryName,
+      fromValue: fromValue,
+      fromUnit: fromUnit,
+      toValue: toValue,
+      toUnit: toUnit,
+      timestamp: DateTime.now(),
+    );
+    HistoryService.addConversion(history);
   }
 
   String _formatResult(double value) {

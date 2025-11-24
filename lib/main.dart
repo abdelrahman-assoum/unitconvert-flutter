@@ -33,13 +33,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-
-  final List<Widget> _screens = [const HomeContent(), const HistoryScreen()];
+  final GlobalKey<HistoryScreenState> _historyKey = GlobalKey<HistoryScreenState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          const HomeContent(),
+          HistoryScreen(key: _historyKey),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color(0xFF1A1F2E),
         selectedItemColor: Colors.blue,
@@ -49,6 +54,10 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             _currentIndex = index;
           });
+          // Refresh history when switching to history tab
+          if (index == 1) {
+            _historyKey.currentState?.refresh();
+          }
         },
         type: BottomNavigationBarType.fixed,
         items: const [
